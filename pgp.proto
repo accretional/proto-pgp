@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package pgp;
+
+option go_package = "github.com/accretional/proto-pgp/pb";
+
+// useful info https://web.archive.org/web/20260327171648/https://users.ece.cmu.edu/~adrian/630-f04/PGP-intro.html
+
+message Holder {
+  // Hold off on implementing until the proper proto types are defined in other repos, then use those
+}
+
+message Key {
+  enum Algorithm {
+    UNKNOWN = 0;
+    RSA = 1;
+    DH = 2;
+    DSA = 3;
+  }
+  string content = 1;
+  Algorithm algorithm = 2;
+}
+
+message Signature {
+ // TODO
+}
+
+
+message Certificate {
+  enum Algorithm {
+    UNKNOWN = 0;
+    CAST = 1;
+    IDEA = 2;
+    TRIPLE_DES = 3;
+  }
+  string version = 1;
+  Key content = 2;
+  Holder holder = 3;
+  // TODO maybe should separate self_signature
+  repeated Signature signatures = 4;
+  // TODO replace these with non-google start/end time, look into how its encoded natively
+  google.protobuf.Timestamp start_time = 5;
+  google.protobuf.Timestamp end_time = 6;
+  Algorithm algorithm = 7;
+}
